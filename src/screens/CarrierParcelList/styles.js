@@ -45,6 +45,20 @@ export const headingStyles = StyleSheet.create({
       fontWeight: '400',
       color: 'rgba(58, 53, 65, 0.87)'
     },
-    rightSection: { color: '#DF0000', fontWeight: '500', fontSize: 10 },
-    disabledButton: { color: 'rgba(58, 53, 65, 0.38)', fontWeight: '500', fontSize: 10}
+    rightSection: { color: '#DF0000', fontWeight: '500', fontSize: 10 }
   });
+
+  export const footerStyles = StyleSheet.create({
+    buttonContainer: {
+      width: '100%', 
+      backgroundColor: '#DF0000', 
+      alignItems: 'center', 
+      padding: 20, 
+      boxShadow: '0px 4px 8px -4px rgba(58, 53, 65, 0.42)',
+      borderRadius: 5
+    },
+    buttonText: {
+      color: 'white', 
+      fontWeight: '500'
+    }
+  })

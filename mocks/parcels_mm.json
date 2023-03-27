@@ -6,8 +6,9 @@
     "pickupAdress": "St. Solsones, 2, Barcelona",
     "pickupDate": "3/25/2023",
     "itemsCount": 1,
-    "items": [{ "$oid": "fc13ae2238000168" }],
-    "carrier": "het32r0g0u78"
+    "items": [{ "$oid": "fc13ae1251rg8kx0" }],
+    "carrier": "het32r0g0u78",
+    "status": "DELIVERED"
   },
   {
     "id": { "$oid": "641db7b2fc16" },
@@ -19,9 +20,10 @@
     "items": [
       { "$oid": "fc13ae1251rg8kx0" },
       { "$oid": "fe237e2fh8j0k1a5" },
-      { "$oid": "fc13ae22380ea681" }
+      { "$oid": "fc13ae125y0h0577" }
     ],
-    "carrier": "het32bf618ka"
+    "carrier": "het32bf618ka",
+    "status": "DELIVERY"
   },
   {
     "id": { "$oid": "641db7b2fc19" },
@@ -32,9 +34,10 @@
     "itemsCount": 2,
     "items": [
       { "$oid": "fc13ar52qt07026j" },
-      { "$oid": "fc13ae22380ea681" }
+      { "$oid": "fc13ae125y0h0577" }
     ],
-    "carrier": "het32r0g0u78"
+    "carrier": "het32r0g0u78",
+    "status": "DELIVERED"
   },
   {
     "id": { "$oid": "641db7b2fc34" },
@@ -45,10 +48,11 @@
     "itemsCount": 3,
     "items": [
       { "$oid": "fc13ar52qt07026j" },
-      { "$oid": "fc13ae2238000168" },
+      { "$oid": "fc13ae1251rg8kx0" },
       { "$oid": "fc13ae125y0h0577" }
     ],
-    "carrier": "het32yw174i5"
+    "carrier": "het32yw174i5",
+    "status": "DELIVERY"
   },
   {
     "id": { "$oid": "641db7b2fc35" },
@@ -59,9 +63,10 @@
     "itemsCount": 3,
     "items": [
       { "$oid": "fc13ar52qt07026j" },
-      { "$oid": "fc13ae2238000168" },
+      { "$oid": "fc13ae1251rg8kx0" },
       { "$oid": "fc13ae125y0h0577" }
     ],
-    "carrier": "het32yw174i5"
+    "carrier": "het32yw174i5",
+    "status": "DELIVERY"
   }
 ]
