@@ -1,18 +1,26 @@
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Button, FlatList, Text, Pressable, View } from 'react-native';
+import { FlatList, Text, Pressable, View, TextInput } from 'react-native';
 import { footerStyles, headingStyles, listStyles } from './styles';
-// import ReusableModal from '../../shared/Modal';
 import { useState } from 'react';
-import itemsData from '../../../mocks/items_mm.json';
+import itemsData from '../../services/mocks/items_mm.json';
+import carriersData from '../../services/mocks/carriers_mm.json'
 import ListItem from '../../components/ListItem';
+import ReusableBottomSheet from '../../components/ReusableBottomSheet';
+import ReusableModal from '../../components/ReusableModal';
+import { patchParcelListForStatus } from '../../services/api';
 
 const CarrierParcelList = () => {
   const navigation = useNavigation();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [driverName, setDriverName] = useState('');
+  const [licensePlate, setLicensePlate] = useState('');
   const route = useRoute();
   const { data } = route.params;
+  console.log(data);
 
   const renderItem = (param) => {
     const { item } = param;
@@ -30,8 +38,25 @@ const CarrierParcelList = () => {
   }
 
   const getItemData = (items) => {
-    console.log(items.map(item => itemsData.find(it => it.id.$oid === item.$oid)));
     return items.map(item => itemsData.find(it => it.id.$oid === item.$oid));
+  }
+
+  const getCarrierData = (id) => {
+    return carriersData.find(ele => ele.id.$oid === id);
+  }
+
+  const updateDeliveryStatus = async () => {
+    await patchParcelListForStatus(data.id);
+  }
+
+  const validateDetails = () => {
+    const carrierData = getCarrierData(data.carrierId);
+    if (carrierData.driver === driverName && carrierData.licensePlate === licensePlate) {
+      setShowBottomSheet(false);
+      setShowSuccessModal(true);
+    } else {
+      setShowErrorModal(true);
+    }
   }
 
   return (
@@ -49,13 +74,40 @@ const CarrierParcelList = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.$oid}
       />
-      <Pressable onPress={() => { }} style={footerStyles.buttonContainer}>
+      <Pressable onPress={() => { setShowBottomSheet(true) }} style={footerStyles.buttonContainer}>
         <Text style={footerStyles.buttonText}>DELIVERY</Text>
       </Pressable>
-      {/* <Button title="Open Modal" onPress={()=>setIsModalVisible(true)} /> */}
-      {/* <ReusableModal visible={isModalVisible} onClose={()=>setIsModalVisible(false)} footerBtnText="GO TO PARCEL LIST">
-        <Text style={{maxWidth: '70%', textAlign: 'center'}}>Parcel successfully delivered to the carrier</Text>
-      </ReusableModal> */}
+
+      <ReusableBottomSheet visible={showBottomSheet} onClose={() => setShowBottomSheet(false)} footerBtnText="Next" onFooterBtnPress={() => {
+        validateDetails();
+      }}>
+        <View style={{ width: '100%' }}>
+          <TextInput
+            placeholder="Driver's name"
+            onChangeText={text => setDriverName(text)}
+            style={{ height: 40, borderColor: 'gray', borderWidth: 1, }}
+          />
+          <TextInput
+            placeholder="License plate"
+            onChangeText={text => setLicensePlate(text)}
+            style={{ height: 40, borderColor: 'gray', borderWidth: 1, }}
+          />
+        </View>
+      </ReusableBottomSheet>
+
+      <ReusableModal visible={showSuccessModal} onClose={async () => {
+        await updateDeliveryStatus();
+        setShowSuccessModal(false);
+        navigation.navigate('Parcels List', { isUpdated: true });
+      }} footerBtnText="GO TO PARCEL LIST" icon="checkcircleo">
+        <Text style={{ maxWidth: '70%', textAlign: 'center' }}>Parcel successfully delivered to the carrier</Text>
+      </ReusableModal>
+
+      <ReusableModal visible={showErrorModal} onClose={() => {
+        setShowErrorModal(false);
+      }} footerBtnText="Back" icon="dislike1">
+        <Text style={{ maxWidth: '70%', textAlign: 'center' }}>Some information is wrong</Text>
+      </ReusableModal>
     </>
   );
 }

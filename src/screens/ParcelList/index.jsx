@@ -4,13 +4,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { FlatList, Text, Pressable, View } from 'react-native';
 import { headingStyles, listStyles } from './styles';
 import ListItem from '../../components/ListItem';
-import carriersData from '../../../mocks/carriers_mm.json';
+import carriersData from '../../services/mocks/carriers_mm.json'
 
 const ParcelList = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { data } = route.params;
-  console.log(data);
 
   const getCourierName = (id) => {
     return carriersData.find(ele => ele.id.$oid === id);
@@ -23,7 +22,7 @@ const ParcelList = () => {
   const renderItem = (param) => {
     const { item } = param;
     return (
-      <ListItem onItemPressed={() => onItemPressed({ id: item.id.$oid, items: item.items })}>
+      <ListItem onItemPressed={() => onItemPressed({ id: item.id.$oid, items: item.items, carrierId: item.carrier })} isDisabled={item.status === 'DELIVERED'}>
         <View style={listStyles.leftSection}>
           <FontAwesome5 name="truck" style={listStyles.icon} />
           <View style={listStyles.contentContainer}>
@@ -32,7 +31,7 @@ const ParcelList = () => {
             <Text style={listStyles.content}>{item.itemsCount} items to be picked up</Text>
           </View>
         </View>
-        <Pressable onPress={() => console.log('navigated')} disabled={item.status === 'DELIVERED'}>
+        <Pressable onPress={() => console.log('navigated')}>
           <Text style={item.status === 'DELIVERED' ? listStyles.disabledButton : listStyles.rightSection}>{item.status}</Text>
         </Pressable>
       </ListItem>
@@ -55,7 +54,7 @@ const ParcelList = () => {
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.parcelTitle}
+        keyExtractor={(item) => item.id.$oid}
       />
     </>
   );

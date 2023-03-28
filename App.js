@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ParcelsList from './src/screens/ParcelsList';
-import { initializeStore } from './src/utils/initializeStore';
+// import { initializeStore } from './src/utils/initializeStore';
 import ParcelList from './src/screens/ParcelList';
 import CarrierParcelList from './src/screens/CarrierParcelList';
 
@@ -11,11 +11,11 @@ import CarrierParcelList from './src/screens/CarrierParcelList';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  initializeStore();
+  // initializeStore();
   return (
     <View style={styles.defaultMargin}>
       <NavigationContainer>
-      <Stack.Navigator screenOptions={{
+      <Stack.Navigator detachInactiveScreens={true} screenOptions={{
         headerShown: false,
         contentStyle: {
           backgroundColor: '#fff'
