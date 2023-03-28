@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, Pressable, SafeAreaView, Text, View, TextInput, Modal } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { dropdownStyles, styles } from "./styles";
+import { headingStyles, styles } from "./styles";
 import { AntDesign } from "@expo/vector-icons";
 import ListItem from "../../components/ListItem";
 import ReusableBottomSheet from "../../components/ReusableBottomSheet";
 import carrierData from "../../services/mocks/carriers_mm.json";
 import { setParcelsList } from "../../services/api";
 import { storeGetter } from "../../utils/store";
+import CustomTextInput from "../../components/TextInput";
+import CustomDropdown from "../../components/Dropdown";
 
 const ParcelsList = () => {
     const navigation = useNavigation();
@@ -96,21 +98,16 @@ const ParcelsList = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <View style={headingStyles.container}>
+                <Text style={headingStyles.title}>
+                    Parcel Lists
+                </Text>
+            </View>
             <View style={{ flex: 1, marginTop: 30, marginLeft: 20, marginRight: 20 }}>
                 <FlatList
                     data={formattedData}
                     renderItem={renderItem}
                     keyExtractor={item => item.pickupDate}
-                    showsVerticalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <View style={{
-                        borderBottomWidth: 1, borderBottomColor: "#3A35411F", paddingBottom: 10,
-                        marginTop: 6, marginBottom: 6
-                    }} />}
-                    ListHeaderComponent={() => <View style={{ marginBottom: 17, marginTop: 48 }}>
-                        <Text style={{ fontSize: 24, fontWeight: '500' }}>
-                            Parcel Lists
-                        </Text>
-                    </View>}
                 />
             </View>
             <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
@@ -118,65 +115,13 @@ const ParcelsList = () => {
                     <AntDesign name="plus" style={styles.icon} />
                 </Pressable>
             </View>
-            {/* <CustomModal open={modalVisible} onRequestClose={() => { setModalVisible(false) }}>
-                <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Parcel and Carrier information</Text>
-                    <CustomTextInput placeholder={'ID'} />
-                    <CustomTextInput placeholder={'Carrier ID'} />
-                    <Pressable
-                        style={[styles.button]}
-                        onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={styles.textStyle}>ADD</Text>
-                    </Pressable>
-                </View>
-            </CustomModal> */}
             <ReusableBottomSheet visible={showModal} onClose={() => setShowModal(false)} footerBtnText="ADD" onFooterBtnPress={() => {
                 addParcels();
                 setShowModal(false);
             }}>
                 <View style={{ width: '100%' }}>
-                    <TextInput
-                        placeholder="ID"
-                        style={{ height: 40, borderColor: 'gray', borderWidth: 1, }}
-                        onChangeText={text => setParcelId(text)}
-                    />
-                    <View style={dropdownStyles.container}>
-                        <Pressable
-                            style={dropdownStyles.selectedItem}
-                            onPress={() => setIsDropdownVisible(true)}
-                        >
-                            <Text>{selectedItem ? selectedItem.label : 'Select an item'}</Text>
-                        </Pressable>
-                        <Modal
-                            visible={isDropdownVisible}
-                            animationType="fade"
-                            transparent={true}
-                        >
-                            <Pressable
-                                style={dropdownStyles.dropdown}
-                                activeOpacity={1}
-                                onPress={() => setIsDropdownVisible(false)}
-                            >
-                                <View style={dropdownStyles.dropdownContent}>
-                                    <FlatList
-                                        data={items}
-                                        renderItem={({ item }) => (
-                                            <Pressable
-                                                style={dropdownStyles.item}
-                                                onPress={() => {
-                                                    setSelectedItem(item);
-                                                    setIsDropdownVisible(false);
-                                                }}
-                                            >
-                                                <Text style={dropdownStyles.itemText}>{item.label}</Text>
-                                            </Pressable>
-                                        )}
-                                        keyExtractor={item => item.value.toString()}
-                                    />
-                                </View>
-                            </Pressable>
-                        </Modal>
-                    </View>
+                    <CustomTextInput placeholder="ID" onChangeHandler={text => setParcelId(text)} />
+                    <CustomDropdown placeholder="Carrier ID" setIsDropdownVisible={setIsDropdownVisible} isDropdownVisible={isDropdownVisible} items={items} setSelectedItem={setSelectedItem} selectedItem={selectedItem} />
                 </View>
             </ReusableBottomSheet>
         </SafeAreaView>

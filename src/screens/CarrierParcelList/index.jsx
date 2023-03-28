@@ -1,7 +1,7 @@
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { FlatList, Text, Pressable, View, TextInput } from 'react-native';
+import { FlatList, Text, Pressable, View } from 'react-native';
 import { footerStyles, headingStyles, listStyles } from './styles';
 import { useState } from 'react';
 import itemsData from '../../services/mocks/items_mm.json';
@@ -10,6 +10,7 @@ import ListItem from '../../components/ListItem';
 import ReusableBottomSheet from '../../components/ReusableBottomSheet';
 import ReusableModal from '../../components/ReusableModal';
 import { patchParcelListForStatus } from '../../services/api';
+import CustomTextInput from '../../components/TextInput';
 
 const CarrierParcelList = () => {
   const navigation = useNavigation();
@@ -82,16 +83,8 @@ const CarrierParcelList = () => {
         validateDetails();
       }}>
         <View style={{ width: '100%' }}>
-          <TextInput
-            placeholder="Driver's name"
-            onChangeText={text => setDriverName(text)}
-            style={{ height: 40, borderColor: 'gray', borderWidth: 1, }}
-          />
-          <TextInput
-            placeholder="License plate"
-            onChangeText={text => setLicensePlate(text)}
-            style={{ height: 40, borderColor: 'gray', borderWidth: 1, }}
-          />
+          <CustomTextInput placeholder="Driver's name" onChangeHandler={text => setDriverName(text)} />
+          <CustomTextInput placeholder="License plate" onChangeHandler={text => setLicensePlate(text)} />
         </View>
       </ReusableBottomSheet>
 
