@@ -35,14 +35,10 @@ const ParcelList = () => {
             <Text style={listStyles.content}>{item.itemsCount} items to be picked up</Text>
           </View>
         </View>
-        <Pressable onPress={() => console.log('navigated')}>
-          <Text
-            style={
-              item.status === 'DELIVERED' ? listStyles.disabledButton : listStyles.rightSection
-            }>
-            {item.status}
-          </Text>
-        </Pressable>
+        <Text
+          style={item.status === 'DELIVERED' ? listStyles.disabledButton : listStyles.rightSection}>
+          {item.status}
+        </Text>
       </ListItem>
     );
   };

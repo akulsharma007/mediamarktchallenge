@@ -21,7 +21,6 @@ const CarrierParcelList = () => {
   const [licensePlate, setLicensePlate] = useState('');
   const route = useRoute();
   const { data } = route.params;
-  console.log(data);
 
   const renderItem = (param) => {
     const { item } = param;
@@ -87,7 +86,8 @@ const CarrierParcelList = () => {
         footerBtnText="Next"
         onFooterBtnPress={() => {
           validateDetails();
-        }}>
+        }}
+        headerText="Delivery information">
         <View style={{ width: '100%' }}>
           <CustomTextInput
             placeholder="Driver's name"

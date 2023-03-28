@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 
+import BarcodeScanner from './src/components/BarcodeScanner';
 import CarrierParcelList from './src/screens/CarrierParcelList';
 import ParcelList from './src/screens/ParcelList';
 import ParcelsList from './src/screens/ParcelsList';
@@ -24,6 +25,7 @@ export default function App() {
           <Stack.Screen name="Parcels List" component={ParcelsList} />
           <Stack.Screen name="Parcel List" component={ParcelList} />
           <Stack.Screen name="Carrier Parcels List" component={CarrierParcelList} />
+          <Stack.Screen name="Barcode Scanner" component={BarcodeScanner} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />

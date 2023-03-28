@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native';
 
-import { headingStyles, styles } from './styles';
+import { bottomSheet, headingStyles, listStyles, styles } from './styles';
 import CustomDropdown from '../../components/Dropdown';
 import ListItem from '../../components/ListItem';
 import ReusableBottomSheet from '../../components/ReusableBottomSheet';
@@ -46,7 +46,6 @@ const ParcelsList = () => {
   };
 
   useEffect(() => {
-    // const sortedByPickupDate = data.sort((a, b) => new Date(b.pickupDate) - new Date(a.pickupDate));
     const groupByPickupDate = data.reduce((acc, current) => {
       if (acc[current.pickupDate]) {
         acc[current.pickupDate] = [...acc[current.pickupDate], current];
@@ -57,20 +56,20 @@ const ParcelsList = () => {
     }, {});
 
     const formattedData = [];
-    const temp = Object.values(groupByPickupDate);
-    for (let i = 0; i < temp.length; i++) {
-      const abc = temp[i];
+    const groupByPickupDateFlatStructure = Object.values(groupByPickupDate);
+    for (let i = 0; i < groupByPickupDateFlatStructure.length; i++) {
+      const localElement = groupByPickupDateFlatStructure[i];
       const obj = {
-        pickupDate: abc[0].pickupDate,
+        pickupDate: localElement[0].pickupDate,
       };
-      const itemTotalCount = abc.reduce((acc, curr) => curr.itemsCount + acc, 0);
+      const itemTotalCount = localElement.reduce((acc, curr) => curr.itemsCount + acc, 0);
       obj.itemTotalCount = itemTotalCount;
-      obj.carrierCount = [...new Set(abc.map((x) => x.carrier))].length;
-      obj.parcels = abc;
+      obj.carrierCount = [...new Set(localElement.map((x) => x.carrier))].length;
+      obj.parcels = localElement;
       formattedData.push(obj);
     }
-    // const sortedByPickupDate = formattedData.sort((a, b) => new Date(b.pickupDate) - new Date(a.pickupDate));
-    // console.log(sortedByPickupDate);
+
+    formattedData.sort((a, b) => new Date(b.pickupDate) - new Date(a.pickupDate));
 
     setFormattedData(formattedData);
   }, [data]);
@@ -84,30 +83,15 @@ const ParcelsList = () => {
     return (
       <ListItem onItemPressed={() => onItemPressed(item.parcels)}>
         <View style={{ flex: 2 }}>
+          <Text style={listStyles.title}>{`Parcel List ${item.pickupDate}`}</Text>
           <Text
-            style={{
-              fontSize: 16,
-              color: '#3A3541AD',
-              fontWeight: '500',
-            }}>{`Parcel List ${item.pickupDate}`}</Text>
-          <Text
-            style={{
-              fontSize: 10,
-              fontWeight: '400',
-              color: '#3A3541AD',
-            }}>{`${item.carrierCount} carriers will pick up the parcel`}</Text>
-          <Text
-            style={{
-              fontSize: 10,
-              fontWeight: '400',
-              color: '#3A3541AD',
-            }}>{`${item.itemTotalCount} Items`}</Text>
+            style={
+              listStyles.content
+            }>{`${item.carrierCount} carriers will pick up the parcel`}</Text>
+          <Text style={listStyles.content}>{`${item.itemTotalCount} Items`}</Text>
         </View>
-        <View
-          style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-          <Text style={{ fontSize: 12, color: '#DF0000', fontWeight: '500' }}>
-            {item.pickupDate}
-          </Text>
+        <View style={listStyles.rightSection}>
+          <Text style={listStyles.rightSectionContent}>{item.pickupDate}</Text>
         </View>
       </ListItem>
     );
@@ -118,7 +102,7 @@ const ParcelsList = () => {
       <View style={headingStyles.container}>
         <Text style={headingStyles.title}>Parcel Lists</Text>
       </View>
-      <View style={{ flex: 1, marginTop: 30, marginLeft: 20, marginRight: 20 }}>
+      <View style={{ flex: 1 }}>
         <FlatList
           data={formattedData}
           renderItem={renderItem}
@@ -137,8 +121,13 @@ const ParcelsList = () => {
         onFooterBtnPress={() => {
           addParcels();
           setShowModal(false);
-        }}>
+        }}
+        headerText="Parcel and carrier information">
         <View style={{ width: '100%' }}>
+          <Pressable onPress={() => navigation.navigate('Barcode Scanner')}>
+            <AntDesign name="scan1" style={bottomSheet.scanIcon} />
+          </Pressable>
+          <Text style={{ textAlign: 'center', marginBottom: 10 }}>OR</Text>
           <CustomTextInput placeholder="ID" onChangeHandler={(text) => setParcelId(text)} />
           <CustomDropdown
             placeholder="Carrier ID"

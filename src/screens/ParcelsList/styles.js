@@ -72,3 +72,27 @@ export const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export const listStyles = StyleSheet.create({
+  title: {
+    fontSize: 16,
+    color: '#3A3541AD',
+    fontWeight: '500',
+  },
+  content: {
+    fontSize: 10,
+    fontWeight: '400',
+    color: '#3A3541AD',
+  },
+  rightSection: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' },
+  rightSectionContent: { fontSize: 12, color: '#DF0000', fontWeight: '500' },
+});
+
+export const bottomSheet = StyleSheet.create({
+  scanIcon: {
+    fontSize: 32,
+    color: '#df0000',
+    margin: 10,
+    textAlign: 'center',
+  },
+});
