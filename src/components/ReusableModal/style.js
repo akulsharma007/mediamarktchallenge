@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: [{ translateX: -150 }, { translateY: -100 }],
+    transform: [{ translateX: -100 }, { translateY: -100 }],
     backgroundColor: 'white',
     borderRadius: 30,
     padding: 20,

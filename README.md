@@ -16,7 +16,6 @@ Install [Expo Go](https://expo.dev/client) app on Android phone. Note that the a
 $ git clone https://github.com/akulsharma007/mediamarktchallenge.git
 ```
 2. Install dependencies
-3.
 ```bash
 $ yarn install
 ```
@@ -40,7 +39,7 @@ $ yarn start
 
 ![image2](https://user-images.githubusercontent.com/15700460/228176793-c5248747-7fd4-48ec-926a-085c6d1e4c1b.jpeg)
 
-#### Validations
+#### Scope of Validation
 
 - Parcel that does not exist in the system can not be added.
 
@@ -89,7 +88,7 @@ $ yarn start
 
 ![image6](https://user-images.githubusercontent.com/15700460/228180520-33797f8d-c0ce-4c36-baa4-6cc6ededcbe7.jpeg)
 
-#### Validations
+#### Scope of Validation
 
 - User sees the error if Carrier doesn't exist with the provider driver name and license plate.
 
@@ -102,21 +101,17 @@ $ yarn start
 - `./src/services`: Placeholder for service layer. This is where all the api request handlers go. Currently, it contains mock APIs
 - `./src/components`: Reusable Components that are shared across screens
 
-### 2. Routing
-
-Project uses [React Navigation](https://reactnavigation.org/) for navigating between Screens.
-
-### 3. Persistent Storage Strategy
+### 2. Storage Strategy
 
 Project uses [Async Storage](https://react-native-async-storage.github.io/async-storage/docs/usage/) as persistent storage to save Parcel to Carrier mapping.
 
-I strongly believe that this must be also persisted to backend but I didnt implement it as it was a frontend focussed challenge.
+Since it was a frontend focussed challenge, I did not implement the backend for it.
 
-### 4. Assets
+### 3. Image Assets
 
 Project uses [Expo Vector Icons](https://icons.expo.fyi/) for icons and images.
 
-### 5. Linting and formating
+### 4. Linting and formating
 
 Project uses esLint and Prettier for code formating.
 
@@ -130,7 +125,6 @@ Following are the things I couldn't do due to time constraints, but can be added
 
 1. Driver's signature
 2. Parcel Lists screen when no Parcel is added
-3. Better design for Scan button and Scanner camera
-4. Validations code can be refactored and added to `./utils`
-5. Stepper component to show Delivery Progress
-6. Backend service implementation for persisting Carrier to Parcel mapping
+3. Design improvements
+4. Unit and Integration testing - One of the most important parts.
+5. Stepper component for showing Delivery Progress
