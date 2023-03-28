@@ -119,6 +119,9 @@ Project uses esLint and Prettier for code formating.
 $ yarn run lint
 ```
 
+### 5. Git strategy
+I have not used feature branching development since I was the only one developing it and hence development is segregated based on commits in the master branch.
+
 ## Improvements and missing pieces
 
 Following are the things I couldn't do due to time constraints, but can be added in next versions:
